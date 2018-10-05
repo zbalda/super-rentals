@@ -1,12 +1,22 @@
+import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { click, visit, currentURL, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
+let StubMapsService = Service.extend({
+  getMapElement() {
+    return document.createElement('div');
+  }
+});
 
 module('Acceptance | my acceptance test', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+
+  hooks.beforeEach(function() {
+    this.owner.register('service:maps', StubMapsService);
+  });
 
   test('should show rentals as the home page', async function (assert) {
     await visit('/');
